@@ -84,3 +84,12 @@ Get-CimInstance win32_service -Filter "Description = 'System Monitor service'"
 Get-Service | where-object {$_.DisplayName -like "*sysm*"}
 look for hidden directories, backup files:
 Get-ChildItem -Hidden -Path C:\Users\User\Desktop\
+net share ~list shared folders
+
+bash shell:
+w ~who logged in
+last ~last logged in users
+ls /etc/*-release ~gets distro version
+sudo -l ~list allowed commands for current user
+cat /etc/resolv.conf ~list dns servers
+netstat ~list tcp sockets
