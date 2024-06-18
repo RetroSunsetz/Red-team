@@ -85,6 +85,8 @@ Get-Service | where-object {$_.DisplayName -like "*sysm*"}
 look for hidden directories, backup files:
 Get-ChildItem -Hidden -Path C:\Users\User\Desktop\
 net share ~list shared folders
+sc qc "service-name" ~get service configuration
+icacls "executable-path" ~get executable permissions
 
 bash shell:
 w ~who logged in
