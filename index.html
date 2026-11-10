@@ -6,22 +6,16 @@
 <style>
   /* ── Logo Spot ───────────────────────────────────────────────
      One committed dark-wine world, cream type, a single gold accent.
-     Calm & editorial: oversized serif, quiet mono labels, lots of air.
-     Only real studio information — no invented figures or filler.          */
+     Calm & editorial portfolio + a WhatsApp-order shop.
+     Only real studio information (prices are editable placeholders).       */
   :root{
-    --ink:#170B0B;        /* near-black wine ground */
-    --ink-2:#1E0E0E;      /* raised panel */
-    --wine:#5A1C1C;
-    --cream:#EEE6D8;      /* paper */
-    --cream-dim:#A2937F;  /* muted label */
-    --gold:#C2A06B;       /* the one accent */
-    --line:rgba(238,230,216,.13);
-
+    --ink:#170B0B;--ink-2:#1E0E0E;--ink-3:#260F0F;
+    --wine:#5A1C1C;--cream:#EEE6D8;--cream-dim:#A2937F;--gold:#C2A06B;
+    --line:rgba(238,230,216,.13);--line-2:rgba(238,230,216,.08);
     --serif:"Cormorant Garamond",Georgia,serif;
     --mono:"IBM Plex Mono",ui-monospace,monospace;
     --sans:"Jost","Helvetica Neue",Arial,sans-serif;
     --ar:"El Messiri","Segoe UI",Tahoma,sans-serif;
-
     --maxw:1240px;
     --gl:max(22px,env(safe-area-inset-left,0px));
     --gr:max(22px,env(safe-area-inset-right,0px));
@@ -31,23 +25,26 @@
   html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
   body{background:var(--ink);color:var(--cream);font-family:var(--sans);font-weight:300;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
-
   .wrap{max-width:var(--maxw);margin-inline:auto;padding-left:var(--gl);padding-right:var(--gr)}
   a{color:inherit;text-decoration:none}
   .mono{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase}
   .ar{font-family:var(--ar);direction:rtl}
   :focus-visible{outline:1.5px solid var(--gold);outline-offset:4px}
+  button{font:inherit;color:inherit;cursor:pointer}
 
   /* ── NAV ── */
-  header{position:fixed;inset:0 0 auto;z-index:30;padding-top:env(safe-area-inset-top,0px);transition:background .3s,border-color .3s}
+  header{position:fixed;inset:0 0 auto;z-index:30;padding-top:env(safe-area-inset-top,0px);transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
   .nav{display:flex;align-items:center;justify-content:space-between;padding-block:18px}
   .logo{font-family:var(--serif);font-weight:500;font-size:1.2rem;letter-spacing:.34em;padding-left:.34em}
-  .logo b{font-weight:500}
   .logo i{font-family:var(--mono);font-style:normal;font-size:.44rem;letter-spacing:.2em;opacity:.6;vertical-align:super;margin-left:.3ch}
   .nav-r{display:flex;align-items:center;gap:22px}
   .nav-r a{position:relative;color:var(--cream-dim);transition:color .3s}
   .nav-r a:hover{color:var(--cream)}
-  @media (max-width:520px){.nav-r{gap:16px}.nav-r .hide-s{display:none}}
+  .cartbtn{display:flex;align-items:center;gap:7px;color:var(--cream);background:none;border:1px solid var(--line);border-radius:30px;padding:8px 14px;font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;transition:border-color .3s,color .3s}
+  .cartbtn:hover{border-color:var(--gold);color:var(--gold)}
+  .cartbtn .ct{min-width:18px;height:18px;padding:0 5px;border-radius:12px;background:var(--gold);color:var(--ink);display:inline-grid;place-items:center;font-size:.62rem;font-weight:500}
+  .cartbtn .ct[data-n="0"]{opacity:.35;background:var(--cream-dim)}
+  @media (max-width:560px){.nav-r{gap:14px}.nav-r .hide-s{display:none}.cartbtn .lbl{display:none}}
 
   /* ── HERO ── */
   .hero{min-height:88svh;display:flex;flex-direction:column;justify-content:flex-end;position:relative;padding-top:110px;padding-bottom:clamp(40px,8vh,80px)}
@@ -61,9 +58,12 @@
   .hero-sub{display:flex;flex-wrap:wrap;gap:12px 26px;align-items:center;color:var(--cream-dim);border-top:1px solid var(--line);margin-top:clamp(34px,6vh,56px);padding-top:20px}
   .hero-sub .dl{color:var(--cream)}
 
-  /* ── SECTION LABEL ── */
-  .seclabel{display:flex;align-items:center;gap:12px;color:var(--gold);margin-bottom:clamp(30px,5vh,46px)}
+  /* ── SECTION LABEL / HEADINGS ── */
+  .seclabel{display:flex;align-items:center;gap:12px;color:var(--gold);margin-bottom:clamp(18px,3vh,26px)}
   .seclabel::before{content:"";width:30px;height:1px;background:var(--gold)}
+  .sec-h{font-family:var(--serif);font-weight:300;font-size:clamp(2rem,6vw,3.4rem);line-height:1.04;letter-spacing:-.01em;text-wrap:balance}
+  .sec-intro{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px 40px;margin-bottom:clamp(34px,5vh,52px)}
+  .sec-intro p{color:var(--cream-dim);max-width:34ch}
 
   /* ── WORK (hover-reveal index) ── */
   .work{padding-block:clamp(66px,10vh,120px)}
@@ -73,11 +73,7 @@
   .wrow .nm{font-family:var(--serif);font-weight:300;font-size:clamp(1.8rem,6.2vw,4.4rem);line-height:1;letter-spacing:-.01em;transition:color .4s,font-style .4s}
   .wrow .cat{margin-left:auto;font-family:var(--mono);font-size:.66rem;color:var(--cream-dim);text-align:right;flex:none;align-self:center}
   .wrow .thumb{display:none}
-  @media (hover:hover) and (pointer:fine){
-    .wrow:hover{padding-left:24px}
-    .wrow:hover .nm{font-style:italic;color:var(--gold)}
-    .wrow:hover .num{color:var(--gold)}
-  }
+  @media (hover:hover) and (pointer:fine){.wrow:hover{padding-left:24px}.wrow:hover .nm{font-style:italic;color:var(--gold)}.wrow:hover .num{color:var(--gold)}}
   .preview{position:fixed;top:0;left:0;z-index:40;width:clamp(230px,23vw,340px);aspect-ratio:4/5;border-radius:3px;overflow:hidden;pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(.92);transition:opacity .35s,transform .35s;will-change:transform}
   .preview.on{opacity:1}
   .pv{position:absolute;inset:0;opacity:0;transition:opacity .4s}
@@ -89,27 +85,73 @@
   .pv4{background:radial-gradient(120% 120% at 38% 22%,#2a4a80,#131f3a)}
   @media (hover:none),(pointer:coarse){
     .preview{display:none}
-    .wrow{flex-wrap:wrap}
-    .wrow .cat{align-self:flex-start}
+    .wrow{flex-wrap:wrap}.wrow .cat{align-self:flex-start}
     .wrow .thumb{display:block;flex-basis:100%;aspect-ratio:16/8;border-radius:3px;margin-top:14px;position:relative}
     .wrow .thumb::after{content:"LSPOT";position:absolute;top:11px;left:13px;font-family:var(--serif);letter-spacing:.3em;font-size:.56rem;opacity:.7}
   }
 
-  /* ── STUDIO + SERVICES ── */
-  .split{padding-block:clamp(66px,10vh,120px);background:var(--ink-2);border-block:1px solid var(--line)}
-  .split-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(34px,6vw,88px)}
-  .split h2{font-family:var(--serif);font-weight:300;font-size:clamp(1.9rem,4.4vw,3rem);line-height:1.12;text-wrap:balance}
-  .split h2 em{font-style:italic;color:var(--gold)}
-  .split .say{color:var(--cream-dim);margin-top:20px;max-width:36ch}
-  .split .ar{color:var(--gold);font-size:1.15rem;margin-top:24px}
-  .svc{border-top:1px solid var(--line)}
-  .srow{display:flex;align-items:center;gap:16px;padding-block:22px;border-bottom:1px solid var(--line);transition:padding-left .35s}
-  .srow .n{font-family:var(--mono);font-size:.68rem;color:var(--cream-dim)}
-  .srow .en{font-family:var(--serif);font-weight:300;font-size:clamp(1.4rem,3.4vw,2rem)}
-  .srow .arn{margin-left:auto;font-family:var(--ar);direction:rtl;color:var(--cream-dim);font-size:.95rem;transition:color .35s}
-  .srow:hover{padding-left:14px}
-  .srow:hover .arn{color:var(--gold)}
-  @media (max-width:800px){.split-grid{grid-template-columns:1fr;gap:40px}}
+  /* ── STUDIO ── */
+  .studio{padding-block:clamp(60px,9vh,110px);background:var(--ink-2);border-block:1px solid var(--line)}
+  .studio-in{max-width:21ch}
+  .studio h2{font-family:var(--serif);font-weight:300;font-size:clamp(2rem,5vw,3.4rem);line-height:1.12;text-wrap:balance}
+  .studio h2 em{font-style:italic;color:var(--gold)}
+  .studio p{color:var(--cream-dim);margin-top:20px;max-width:40ch}
+  .studio .ar{color:var(--gold);font-size:1.15rem;margin-top:22px}
+
+  /* ── SHOP ── */
+  .shop{padding-block:clamp(66px,10vh,120px)}
+  .shop-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(14px,2vw,22px)}
+  .card{display:flex;flex-direction:column;background:var(--ink-2);border:1px solid var(--line);border-radius:5px;padding:clamp(22px,3vw,32px);transition:border-color .3s,transform .3s}
+  .card:hover{border-color:rgba(194,160,107,.45);transform:translateY(-3px)}
+  .card .cnum{font-family:var(--mono);font-size:.66rem;color:var(--cream-dim)}
+  .card h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.5rem,3.4vw,2.1rem);line-height:1.05;margin-top:14px}
+  .card .cardar{font-family:var(--ar);direction:rtl;color:var(--gold);font-size:.95rem;margin-top:4px}
+  .card .cdesc{color:var(--cream-dim);font-size:.9rem;margin-top:14px;flex:1}
+  .card .cfoot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:24px;padding-top:18px;border-top:1px solid var(--line-2)}
+  .card .price{font-family:var(--serif);font-size:1.3rem}
+  .card .price small{font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--cream-dim);display:block;margin-bottom:2px}
+  .add{display:flex;align-items:center;gap:8px;background:var(--cream);color:var(--ink);border:none;border-radius:30px;padding:11px 18px;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;transition:background .25s,transform .2s}
+  .add:hover{background:#fff;transform:translateY(-1px)}
+  .add.added{background:var(--gold)}
+  @media (max-width:620px){.shop-grid{grid-template-columns:1fr}}
+
+  /* ── CART DRAWER ── */
+  .scrim{position:fixed;inset:0;z-index:48;background:rgba(10,5,5,.55);backdrop-filter:blur(2px);opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+  .scrim.open{opacity:1;visibility:visible}
+  .drawer{position:fixed;top:0;right:0;z-index:49;height:100%;width:min(400px,100%);
+    background:var(--ink-3);border-left:1px solid var(--line);
+    display:flex;flex-direction:column;
+    transform:translateX(100%);transition:transform .4s cubic-bezier(.19,1,.22,1);
+    padding-top:env(safe-area-inset-top,0px);padding-right:env(safe-area-inset-right,0px)}
+  .drawer.open{transform:none}
+  .dhead{display:flex;align-items:center;justify-content:space-between;padding:22px var(--gr) 18px var(--gl);border-bottom:1px solid var(--line)}
+  .dhead .t{font-family:var(--serif);font-size:1.4rem}
+  .dclose{background:none;border:none;color:var(--cream-dim);font-size:1.4rem;line-height:1;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;transition:color .25s,background .25s}
+  .dclose:hover{color:var(--cream);background:var(--ink-2)}
+  .ditems{flex:1;overflow-y:auto;padding:6px var(--gr) 6px var(--gl)}
+  .empty{color:var(--cream-dim);text-align:center;padding:60px 10px;font-size:.92rem}
+  .empty span{display:block;font-family:var(--serif);font-size:1.5rem;color:var(--cream);margin-bottom:8px}
+  .ditem{display:flex;gap:14px;align-items:flex-start;padding-block:20px;border-bottom:1px solid var(--line-2)}
+  .ditem .in{flex:1;min-width:0}
+  .ditem .in b{font-family:var(--serif);font-weight:400;font-size:1.2rem;display:block}
+  .ditem .in .ap{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;color:var(--cream-dim);margin-top:3px}
+  .qty{display:flex;align-items:center;gap:0;border:1px solid var(--line);border-radius:30px;margin-top:12px;width:max-content}
+  .qty button{width:30px;height:30px;background:none;border:none;color:var(--cream);font-size:1rem;display:grid;place-items:center}
+  .qty button:hover{color:var(--gold)}
+  .qty span{min-width:26px;text-align:center;font-family:var(--mono);font-size:.76rem}
+  .ditem .right{text-align:right;flex:none}
+  .ditem .lp{font-family:var(--serif);font-size:1.15rem}
+  .rm{background:none;border:none;color:var(--cream-dim);font-family:var(--mono);font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;margin-top:14px;transition:color .25s}
+  .rm:hover{color:var(--gold)}
+  .dfoot{border-top:1px solid var(--line);padding:20px var(--gr) calc(22px + env(safe-area-inset-bottom,0px)) var(--gl);background:var(--ink-2)}
+  .drow{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+  .drow .k{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cream-dim)}
+  .drow .v{font-family:var(--serif);font-size:1.7rem}
+  .dnote{font-size:.74rem;color:var(--cream-dim);margin:10px 0 16px}
+  .order{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:var(--gold);color:var(--ink);border:none;border-radius:30px;padding:16px;font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;transition:background .25s,transform .2s}
+  .order:hover{background:#d4b47c;transform:translateY(-1px)}
+  .order:disabled{opacity:.4;pointer-events:none}
+  .order svg{width:16px;height:16px;fill:var(--ink)}
 
   /* ── CONTACT ── */
   .contact{padding-block:clamp(74px,12vh,140px);position:relative;overflow:hidden}
@@ -117,7 +159,6 @@
   .contact .wrap{position:relative;z-index:1}
   .contact h2{font-family:var(--serif);font-weight:300;font-size:clamp(2.8rem,12vw,8.5rem);line-height:.92;letter-spacing:-.02em;text-wrap:balance}
   .contact h2 em{font-style:italic;color:var(--gold)}
-  .contact .ar{color:var(--gold);font-size:clamp(1.1rem,3.4vw,1.6rem);margin-bottom:14px}
   .cwrap{display:flex;flex-wrap:wrap;gap:34px 64px;margin-top:clamp(40px,7vh,60px);border-top:1px solid var(--line);padding-top:36px}
   .citem .mono{color:var(--cream-dim);display:block;margin-bottom:9px}
   .cval{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -125,7 +166,7 @@
   .cval a{position:relative}
   .cval a::after{content:"";position:absolute;left:0;bottom:-2px;width:100%;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .35s}
   .cval a:hover::after{transform:scaleX(1)}
-  .copy{font-family:var(--mono);font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;color:var(--cream-dim);border:1px solid var(--line);background:none;border-radius:30px;padding:6px 11px;cursor:pointer;transition:color .25s,border-color .25s}
+  .copy{font-family:var(--mono);font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;color:var(--cream-dim);border:1px solid var(--line);background:none;border-radius:30px;padding:6px 11px;transition:color .25s,border-color .25s}
   .copy:hover{color:var(--gold);border-color:var(--gold)}
 
   /* ── FOOTER ── */
@@ -140,8 +181,9 @@
     <a class="logo" href="#top"><b>LSPOT</b><i>BY F</i></a>
     <nav class="nav-r mono">
       <a href="#work" class="hide-s">Work</a>
-      <a href="#studio" class="hide-s">Studio</a>
-      <a href="#contact">Contact</a>
+      <a href="#shop" class="hide-s">Shop</a>
+      <a href="#contact" class="hide-s">Contact</a>
+      <button class="cartbtn" id="openCart" aria-label="Open cart"><span class="lbl">Cart</span><span class="ct" id="navCount" data-n="0">0</span></button>
     </nav>
   </div>
 </header>
@@ -155,9 +197,7 @@
       <span class="ar">مـن الفكـرة إلى الهـويـة</span>
     </div>
     <h1>Refined logos<br>&amp; brand <em>identity</em>.</h1>
-    <div class="hero-sub mono">
-      <span class="dl">Logo</span><span>·</span><span class="dl">Identity</span><span>·</span><span class="dl">Visuals</span>
-    </div>
+    <div class="hero-sub mono"><span class="dl">Logo</span><span>·</span><span class="dl">Identity</span><span>·</span><span class="dl">Visuals</span></div>
   </div>
 </section>
 
@@ -166,47 +206,80 @@
   <div class="wrap">
     <div class="seclabel mono">Selected Work</div>
     <div class="work-list" id="worklist">
-      <a class="wrow" href="#contact" data-pv="1">
-        <span class="num">01</span><span class="nm">Alsaada 14 Butchery</span>
-        <span class="cat">Butchery</span><span class="thumb pv1"></span>
-      </a>
-      <a class="wrow" href="#contact" data-pv="2">
-        <span class="num">02</span><span class="nm">Emaniz</span>
-        <span class="cat">Healthy Food</span><span class="thumb pv2"></span>
-      </a>
-      <a class="wrow" href="#contact" data-pv="3">
-        <span class="num">03</span><span class="nm">Balilah Alstinat</span>
-        <span class="cat">Food · Heritage</span><span class="thumb pv3"></span>
-      </a>
-      <a class="wrow" href="#contact" data-pv="4">
-        <span class="num">04</span><span class="nm">WOW Detailing</span>
-        <span class="cat">Car Detailing</span><span class="thumb pv4"></span>
-      </a>
+      <a class="wrow" href="#shop" data-pv="1"><span class="num">01</span><span class="nm">Alsaada 14 Butchery</span><span class="cat">Butchery</span><span class="thumb pv1"></span></a>
+      <a class="wrow" href="#shop" data-pv="2"><span class="num">02</span><span class="nm">Emaniz</span><span class="cat">Healthy Food</span><span class="thumb pv2"></span></a>
+      <a class="wrow" href="#shop" data-pv="3"><span class="num">03</span><span class="nm">Balilah Alstinat</span><span class="cat">Food · Heritage</span><span class="thumb pv3"></span></a>
+      <a class="wrow" href="#shop" data-pv="4"><span class="num">04</span><span class="nm">WOW Detailing</span><span class="cat">Car Detailing</span><span class="thumb pv4"></span></a>
+    </div>
+  </div>
+</section>
+<div class="preview" id="preview" aria-hidden="true"><div class="pv pv1"></div><div class="pv pv2"></div><div class="pv pv3"></div><div class="pv pv4"></div></div>
+
+<!-- STUDIO -->
+<section class="studio" id="studio">
+  <div class="wrap studio-in">
+    <div class="seclabel mono">The Studio</div>
+    <h2>A Bahrain studio for <em>refined</em> logos and brand identity.</h2>
+    <p>We keep it simple: a considered mark, a clear visual system, and designs that work in Arabic and Latin, on screen and in print.</p>
+    <p class="ar">تطـورنـا عشـانكـم</p>
+  </div>
+</section>
+
+<!-- SHOP -->
+<section class="shop" id="shop">
+  <div class="wrap">
+    <div class="seclabel mono">Shop · Services</div>
+    <div class="sec-intro">
+      <h2 class="sec-h">Pick what you need,<br>send it straight to us.</h2>
+      <p>Add services to your cart and place the order — it opens WhatsApp with your selection ready to send. We reply with timeline and final pricing.</p>
+    </div>
+    <div class="shop-grid" id="shopGrid">
+      <!-- EDIT PRICES in data-price (BHD). Labels are real; prices are starting-from placeholders. -->
+      <article class="card" data-id="logo" data-name="Logo Design" data-ar="تصميم الشعارات" data-price="45">
+        <span class="cnum">01</span>
+        <h3>Logo Design</h3><div class="cardar">تصميم الشعارات</div>
+        <p class="cdesc">A single, well-built mark that reflects the idea and reads at any size.</p>
+        <div class="cfoot"><div class="price"><small>From</small>BHD 45</div><button class="add" data-add aria-label="Add Logo Design to cart">Add +</button></div>
+      </article>
+      <article class="card" data-id="identity" data-name="Visual Identity" data-ar="تصميم الهوية البصرية" data-price="120">
+        <span class="cnum">02</span>
+        <h3>Visual Identity</h3><div class="cardar">تصميم الهوية البصرية</div>
+        <p class="cdesc">Type, colour and layout rules that keep the brand consistent everywhere.</p>
+        <div class="cfoot"><div class="price"><small>From</small>BHD 120</div><button class="add" data-add aria-label="Add Visual Identity to cart">Add +</button></div>
+      </article>
+      <article class="card" data-id="social" data-name="Social Media" data-ar="تصميم السوشال ميديا" data-price="35">
+        <span class="cnum">03</span>
+        <h3>Social Media</h3><div class="cardar">تصميم السوشال ميديا</div>
+        <p class="cdesc">On-brand content and templates that give a feed a confident presence.</p>
+        <div class="cfoot"><div class="price"><small>From</small>BHD 35</div><button class="add" data-add aria-label="Add Social Media to cart">Add +</button></div>
+      </article>
+      <article class="card" data-id="packaging" data-name="Packaging" data-ar="تصميم التغليف" data-price="60">
+        <span class="cnum">04</span>
+        <h3>Packaging</h3><div class="cardar">تصميم التغليف</div>
+        <p class="cdesc">Finishing touches where the identity meets the product in hand.</p>
+        <div class="cfoot"><div class="price"><small>From</small>BHD 60</div><button class="add" data-add aria-label="Add Packaging to cart">Add +</button></div>
+      </article>
     </div>
   </div>
 </section>
 
-<div class="preview" id="preview" aria-hidden="true">
-  <div class="pv pv1"></div><div class="pv pv2"></div><div class="pv pv3"></div><div class="pv pv4"></div>
-</div>
-
-<!-- STUDIO + SERVICES -->
-<section class="split" id="studio">
-  <div class="wrap split-grid">
-    <div>
-      <div class="seclabel mono">The Studio</div>
-      <h2>A Bahrain studio for <em>refined</em> logos and brand identity.</h2>
-      <p class="say">We keep it simple: a considered mark, a clear visual system, and designs that work in Arabic and Latin, on screen and in print.</p>
-      <p class="ar">تطـورنـا عشـانكـم</p>
-    </div>
-    <div class="svc">
-      <div class="srow"><span class="n">01</span><span class="en">Logo Design</span><span class="arn">تصميم الشعارات</span></div>
-      <div class="srow"><span class="n">02</span><span class="en">Visual Identity</span><span class="arn">تصميم الهوية البصرية</span></div>
-      <div class="srow"><span class="n">03</span><span class="en">Social Media</span><span class="arn">تصميم السوشال ميديا</span></div>
-      <div class="srow"><span class="n">04</span><span class="en">Packaging</span><span class="arn">تصميم التغليف</span></div>
-    </div>
+<!-- CART -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Your cart" aria-hidden="true">
+  <div class="dhead">
+    <span class="t">Your Cart</span>
+    <button class="dclose" id="closeCart" aria-label="Close cart">✕</button>
   </div>
-</section>
+  <div class="ditems" id="ditems"></div>
+  <div class="dfoot">
+    <div class="drow"><span class="k">Estimated total</span><span class="v" id="total">BHD 0</span></div>
+    <p class="dnote">A starting estimate — we confirm the final quote on WhatsApp.</p>
+    <button class="order" id="placeOrder" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15l-1.4 5 5.1-1.3A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1112 20zm4.4-6c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1-.6.8-.8 1-.3.2-.5.1a6.5 6.5 0 01-1.9-1.2 7.2 7.2 0 01-1.3-1.7c-.1-.2 0-.4.1-.5l.4-.4.2-.4a.4.4 0 000-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 00-.7.3A2.8 2.8 0 006 8.9a4.9 4.9 0 001 2.6 11.2 11.2 0 004.3 3.8c.6.3 1.1.4 1.5.5a3.6 3.6 0 001.6.1 2.7 2.7 0 001.8-1.3 2.2 2.2 0 00.2-1.3c-.1-.1-.2-.2-.4-.3z"/></svg>
+      Place order on WhatsApp
+    </button>
+  </div>
+</aside>
 
 <!-- CONTACT -->
 <section class="contact" id="contact">
@@ -215,20 +288,9 @@
     <div class="seclabel mono">Start a project</div>
     <h2>Let's give it<br>a <em>mark</em>.</h2>
     <div class="cwrap">
-      <div class="citem">
-        <span class="mono">WhatsApp</span>
-        <div class="cval"><a href="https://wa.me/97333181566" target="_blank" rel="noopener">+973 3318 1566</a>
-          <button class="copy" data-copy="+97333181566" aria-label="Copy number">Copy</button></div>
-      </div>
-      <div class="citem">
-        <span class="mono">Instagram</span>
-        <div class="cval"><a href="https://instagram.com/logospot.bh" target="_blank" rel="noopener">@logospot.bh</a>
-          <button class="copy" data-copy="logospot.bh" aria-label="Copy handle">Copy</button></div>
-      </div>
-      <div class="citem">
-        <span class="mono">Location</span>
-        <div class="cval"><span>Bahrain</span></div>
-      </div>
+      <div class="citem"><span class="mono">WhatsApp</span><div class="cval"><a href="https://wa.me/97333181566" target="_blank" rel="noopener">+973 3318 1566</a><button class="copy" data-copy="+97333181566" aria-label="Copy number">Copy</button></div></div>
+      <div class="citem"><span class="mono">Instagram</span><div class="cval"><a href="https://instagram.com/logospot.bh" target="_blank" rel="noopener">@logospot.bh</a><button class="copy" data-copy="logospot.bh" aria-label="Copy handle">Copy</button></div></div>
+      <div class="citem"><span class="mono">Location</span><div class="cval"><span>Bahrain</span></div></div>
     </div>
   </div>
 </section>
@@ -242,6 +304,87 @@
 
 <script>
 (function(){
+  var WA='97333181566';           // WhatsApp number (no +)
+  var CUR='BHD';
+  var STORE='lspot_cart_v1';
+  var cart={}; // id -> {name,ar,price,qty}
+
+  // ---- persistence (best-effort) ----
+  try{var s=localStorage.getItem(STORE);if(s)cart=JSON.parse(s)||{};}catch(e){cart={};}
+  function save(){try{localStorage.setItem(STORE,JSON.stringify(cart));}catch(e){}}
+
+  var ditems=document.getElementById('ditems'),
+      totalEl=document.getElementById('total'),
+      navCount=document.getElementById('navCount'),
+      orderBtn=document.getElementById('placeOrder');
+
+  function count(){var n=0;for(var k in cart)n+=cart[k].qty;return n;}
+  function total(){var t=0;for(var k in cart)t+=cart[k].qty*cart[k].price;return t;}
+  function money(n){return CUR+' '+n;}
+
+  function render(){
+    var n=count();
+    navCount.textContent=n; navCount.setAttribute('data-n',n);
+    var keys=Object.keys(cart);
+    if(!keys.length){
+      ditems.innerHTML='<div class="empty"><span>Your cart is empty</span>Add a service below to start your order.</div>';
+      orderBtn.disabled=true;
+    }else{
+      var h='';
+      keys.forEach(function(id){var it=cart[id];
+        h+='<div class="ditem"><div class="in"><b>'+esc(it.name)+'</b><div class="ap">'+esc(it.ar)+' · from '+money(it.price)+'</div>'
+          +'<div class="qty"><button data-dec="'+id+'" aria-label="Decrease">−</button><span>'+it.qty+'</span><button data-inc="'+id+'" aria-label="Increase">+</button></div></div>'
+          +'<div class="right"><div class="lp">'+money(it.qty*it.price)+'</div><button class="rm" data-rm="'+id+'">Remove</button></div></div>';
+      });
+      ditems.innerHTML=h;
+      orderBtn.disabled=false;
+    }
+    totalEl.textContent='from '+money(total());
+    save();
+  }
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  // ---- add / change ----
+  document.querySelectorAll('[data-add]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var c=btn.closest('.card'),id=c.dataset.id;
+      if(cart[id])cart[id].qty++;
+      else cart[id]={name:c.dataset.name,ar:c.dataset.ar,price:+c.dataset.price,qty:1};
+      render();
+      var o=btn.textContent;btn.textContent='Added ✓';btn.classList.add('added');
+      setTimeout(function(){btn.textContent=o;btn.classList.remove('added');},1100);
+    });
+  });
+  ditems.addEventListener('click',function(e){
+    var t=e.target;
+    if(t.dataset.inc){cart[t.dataset.inc].qty++;render();}
+    else if(t.dataset.dec){var id=t.dataset.dec;if(--cart[id].qty<=0)delete cart[id];render();}
+    else if(t.dataset.rm){delete cart[t.dataset.rm];render();}
+  });
+
+  // ---- drawer open/close ----
+  var drawer=document.getElementById('drawer'),scrim=document.getElementById('scrim');
+  function open(){drawer.classList.add('open');scrim.classList.add('open');drawer.setAttribute('aria-hidden','false');}
+  function close(){drawer.classList.remove('open');scrim.classList.remove('open');drawer.setAttribute('aria-hidden','true');}
+  document.getElementById('openCart').addEventListener('click',open);
+  document.getElementById('closeCart').addEventListener('click',close);
+  scrim.addEventListener('click',close);
+  addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+
+  // ---- place order → WhatsApp ----
+  orderBtn.addEventListener('click',function(){
+    var keys=Object.keys(cart);if(!keys.length)return;
+    var lines=['Hello Logo Spot! 👋','I\'d like to order the following:',''];
+    keys.forEach(function(id){var it=cart[id];
+      lines.push('• '+it.name+' ('+it.ar+') ×'+it.qty+' — from '+money(it.qty*it.price));});
+    lines.push('','Estimated total: from '+money(total()),'','Could you confirm the timeline and final pricing? Thank you!');
+    var url='https://wa.me/'+WA+'?text='+encodeURIComponent(lines.join('\n'));
+    window.open(url,'_blank','noopener');
+  });
+
+  render();
+
+  // ---- work hover-reveal (desktop) ----
   var fine=window.matchMedia&&window.matchMedia('(hover:hover) and (pointer:fine)').matches;
   if(fine){
     var pv=document.getElementById('preview'),panes=pv.querySelectorAll('.pv'),
@@ -257,13 +400,17 @@
     });});
     list.addEventListener('pointerleave',function(){pv.classList.remove('on');if(raf){cancelAnimationFrame(raf);raf=null;}});
   }
+
+  // ---- nav solidify ----
   var hd=document.querySelector('header');
   addEventListener('scroll',function(){
     var s=scrollY>40;
     hd.style.background=s?'rgba(23,11,11,.85)':'transparent';
     hd.style.backdropFilter=s?'blur(12px)':'none';
-    hd.style.borderBottom=s?'1px solid var(--line)':'1px solid transparent';
+    hd.style.borderBottomColor=s?'var(--line)':'transparent';
   },{passive:true});
+
+  // ---- copy buttons ----
   document.querySelectorAll('.copy').forEach(function(b){
     b.addEventListener('click',function(e){e.preventDefault();
       var t=b.getAttribute('data-copy'),done=function(){var o=b.textContent;b.textContent='Copied';setTimeout(function(){b.textContent=o;},1300);};
